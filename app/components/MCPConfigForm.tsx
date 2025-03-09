@@ -6,14 +6,13 @@ import { ExampleConfigs } from "./ExampleConfigs";
 import {
   PlusCircle,
   Trash2,
-  Save,
   X,
   Server,
-  Cog,
   Terminal,
   Globe,
   ChevronDown,
   ExternalLink,
+  Save,
 } from "lucide-react";
 
 type ConnectionType = "stdio" | "sse";
@@ -31,25 +30,48 @@ interface SSEConfig {
 
 type ServerConfig = StdioConfig | SSEConfig;
 
+// LocalStorage key
+const STORAGE_KEY = "mcp-storage-v3";
+
 export function MCPConfigForm() {
-  const { setState, state } = useCoAgent({
-    name: "sample_agent",
-    initialState: {
-      mcp_config: {},
-    },
+  // Load configs once using initializer function
+  const [configs, setConfigs] = useState<Record<string, ServerConfig>>(() => {
+    // Only run on client side
+    if (typeof window === "undefined") return {};
+
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved) : {};
+    } catch (e) {
+      console.error("Failed to load from localStorage:", e);
+      return {};
+    }
   });
-  const [configs, setConfigs] = useState<Record<string, ServerConfig>>({});
+
   const [serverName, setServerName] = useState("");
   const [connectionType, setConnectionType] = useState<ConnectionType>("stdio");
   const [command, setCommand] = useState("");
   const [args, setArgs] = useState("");
   const [url, setUrl] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [saveStatus, setSaveStatus] = useState<
-    "idle" | "saving" | "success" | "error"
-  >("idle");
   const [showAddServerForm, setShowAddServerForm] = useState(false);
   const [showExampleConfigs, setShowExampleConfigs] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  // Set up coagent
+  const { setState } = useCoAgent({
+    name: "sample_agent",
+    initialState: {
+      mcp_config: {},
+    },
+  });
+
+  // Set isClient after mount
+  useEffect(() => {
+    setIsClient(true);
+
+    // Update agent with initial configs
+    setState({ mcp_config: configs });
+  }, []);
 
   // Calculate server statistics
   const totalServers = Object.keys(configs).length;
@@ -60,16 +82,25 @@ export function MCPConfigForm() {
     (config) => config.transport === "sse"
   ).length;
 
-  // Fetch the current configuration when the component mounts
-  useEffect(() => {
-    if (state && state.mcp_config) {
-      setConfigs(state.mcp_config as Record<string, ServerConfig>);
+  // Manual save function
+  const saveConfigs = () => {
+    if (typeof window === "undefined") return;
+
+    try {
+      // Save to localStorage
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(configs));
+
+      // Update agent state
+      setState({ mcp_config: configs });
+
+      alert(`Saved ${totalServers} configurations successfully!`);
+    } catch (e) {
+      console.error("Failed to save:", e);
+      alert("Failed to save configurations");
     }
-    setIsLoading(false);
-  }, [state]);
+  };
 
   const handleExampleConfig = (exampleConfig: Record<string, ServerConfig>) => {
-    // Merge the example with existing configs or replace them based on user preference
     if (Object.keys(configs).length > 0) {
       const shouldReplace = window.confirm(
         "Do you want to replace your current configuration with this example? Click 'OK' to replace, or 'Cancel' to merge."
@@ -84,7 +115,6 @@ export function MCPConfigForm() {
       setConfigs(exampleConfig);
     }
 
-    // Close the examples panel after selection
     setShowExampleConfigs(false);
   };
 
@@ -124,44 +154,46 @@ export function MCPConfigForm() {
     });
   };
 
-  const saveConfigs = async () => {
-    setSaveStatus("saving");
-    try {
-      await setState({
-        mcp_config: configs,
-      });
-      setSaveStatus("success");
-      setTimeout(() => setSaveStatus("idle"), 2000);
-    } catch (error) {
-      setSaveStatus("error");
-      setTimeout(() => setSaveStatus("idle"), 2000);
-      console.error("Error saving MCP configuration:", error);
-    }
-  };
-
-  if (isLoading) {
-    return <div className="p-4">Loading configuration...</div>;
-  }
-
   return (
     <div className="max-w-5xl mx-auto">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-6">
         <div className="flex items-center">
-          <Server className="h-5 w-5 mr-2" />
-          <h1 className="text-xl font-semibold">chat-mcp-langgraph</h1>
+          <Server className="h-8 w-8 mr-3" />
+          <h1 className="text-4xl font-bold">chat-mcp-langgraph</h1>
         </div>
-        <p className="text-sm text-gray-600">
-          Manage and configure your MPC servers
-        </p>
-        <button
-          onClick={() => setShowAddServerForm(true)}
-          className="px-3 py-1.5 bg-gray-800 text-white rounded-md text-sm font-medium hover:bg-gray-700 flex items-center gap-1"
-        >
-          <PlusCircle className="h-4 w-4" />
-          Add Server
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={saveConfigs}
+            className="px-3 py-1.5 bg-gray-600 text-white rounded-md text-sm font-medium hover:bg-gray-500 flex items-center gap-1"
+          >
+            <Save className="h-4 w-4" />
+            Save
+          </button>
+          <button
+            onClick={() => setShowAddServerForm(true)}
+            className="px-3 py-1.5 bg-gray-800 text-white rounded-md text-sm font-medium hover:bg-gray-700 flex items-center gap-1"
+          >
+            <PlusCircle className="h-4 w-4" />
+            Add Server
+          </button>
+        </div>
       </div>
+
+      {/* Warning about manual saving */}
+      <div className="mb-4 p-3 bg-amber-50 border border-amber-200 text-amber-800 rounded-md text-sm">
+        <strong>Note:</strong> You must click the "Save" button to persist your
+        changes to localStorage. Changes will be lost if you refresh without
+        saving.
+      </div>
+
+      {/* Debug Info */}
+      {isClient && (
+        <div className="mb-4 p-2 bg-gray-100 text-xs font-mono overflow-auto max-h-32 rounded-md">
+          <p>Current configuration:</p>
+          <pre>{JSON.stringify(configs, null, 2)}</pre>
+        </div>
+      )}
 
       {/* Server Statistics */}
       <div className="grid grid-cols-3 gap-4 mb-8">
@@ -250,37 +282,6 @@ export function MCPConfigForm() {
                 </div>
               </div>
             ))}
-          </div>
-        )}
-
-        {totalServers > 0 && (
-          <div className="mt-6 flex justify-end">
-            <button
-              onClick={saveConfigs}
-              disabled={saveStatus === "saving"}
-              className={`px-4 py-2 rounded-md text-sm font-medium flex items-center gap-1 ${
-                saveStatus === "idle"
-                  ? "bg-gray-800 text-white hover:bg-gray-700"
-                  : saveStatus === "saving"
-                  ? "bg-gray-400 text-white cursor-not-allowed"
-                  : saveStatus === "success"
-                  ? "bg-gray-700 text-white"
-                  : "bg-red-600 text-white"
-              }`}
-            >
-              {saveStatus === "idle" ? (
-                <>
-                  <Save className="w-4 h-4" />
-                  Save Configuration
-                </>
-              ) : saveStatus === "saving" ? (
-                "Saving..."
-              ) : saveStatus === "success" ? (
-                "Saved!"
-              ) : (
-                "Error!"
-              )}
-            </button>
           </div>
         )}
 

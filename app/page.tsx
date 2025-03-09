@@ -1,8 +1,7 @@
 import { CopilotChat } from "@copilotkit/react-ui";
 import { CopilotActionHandler } from "./components/CopilotActionHandler";
 import { CopilotKitCSSProperties } from "@copilotkit/react-ui";
-import Link from "next/link";
-import { Settings } from "lucide-react";
+import { MCPConfigForm } from "./components/MCPConfigForm";
 
 export default function Home() {
   return (
@@ -11,26 +10,13 @@ export default function Home() {
       <CopilotActionHandler />
 
       {/* Main content area */}
-      <div className="flex-1 p-8 mr-96 flex flex-col items-center justify-center">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">MCP-LangGraph Client</h1>
-          <p className="text-gray-600 max-w-md">
-            A multi-agent system powered by LangGraph and CopilotKit
-          </p>
-        </div>
-
-        <Link
-          href="/mcp-config"
-          className="flex items-center gap-2 px-6 py-3 bg-gray-800 text-white rounded-md hover:bg-gray-700 text-md font-medium"
-        >
-          <Settings className="w-5 h-5" />
-          Configure MCP Servers
-        </Link>
+      <div className="flex-1 p-8 mr-[30vw]">
+        <MCPConfigForm />
       </div>
 
       {/* Fixed sidebar */}
       <div
-        className="fixed top-0 right-0 h-full w-96 border-l bg-white shadow-md"
+        className="fixed top-0 right-0 h-full w-[30vw] border-l bg-white shadow-md"
         style={
           {
             "--copilot-kit-primary-color": "#4A4A4A",
