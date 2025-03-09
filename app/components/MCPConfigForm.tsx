@@ -296,16 +296,25 @@ export function MCPConfigForm() {
           </div>
         )}
 
-        {/* Composio reference */}
+        {/* Composio & mcp.run reference */}
         <div className="mt-10 pt-4 border-t text-center text-sm text-gray-500">
           More MCP servers available on the web, e.g.{" "}
           <a
             href="https://mcp.composio.dev/"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-700 hover:text-gray-900 inline-flex items-center"
+            className="text-gray-700 hover:text-gray-900 inline-flex items-center mr-2"
           >
             mcp.composio.dev <ExternalLink className="w-3 h-3 ml-1" />
+          </a>
+          and 
+          <a
+            href="https://www.mcp.run/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-700 hover:text-gray-900 inline-flex items-center"
+          >
+            mcp.run <ExternalLink className="w-3 h-3 ml-1" />
           </a>
         </div>
       </div>
