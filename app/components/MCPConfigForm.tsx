@@ -30,7 +30,7 @@ const STORAGE_KEY = "mcp-agent-state";
 
 export function MCPConfigForm() {
   // Use our localStorage hook for persistent storage
-  const [savedConfigs, setSavedConfigs, saveStatus] = useLocalStorage<
+  const [savedConfigs, setSavedConfigs] = useLocalStorage<
     Record<string, ServerConfig>
   >(STORAGE_KEY, {});
 
