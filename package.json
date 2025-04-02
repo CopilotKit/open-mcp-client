@@ -11,9 +11,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@copilotkit/react-core": "^1.6.0",
-    "@copilotkit/react-ui": "^1.6.0",
-    "@copilotkit/runtime": "^1.6.0",
+    "@copilotkit/react-core": "1.8.2",
+    "@copilotkit/react-ui": "1.8.2",
+    "@copilotkit/runtime": "1.8.2",
+    "@copilotkit/runtime-client-gql": "1.8.2",
     "@heroicons/react": "^2.2.0",
     "@langchain/openai": "^0.4.5",
     "class-validator": "^0.14.1",

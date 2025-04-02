@@ -13,12 +13,11 @@ from copilotkit.integrations.fastapi import add_fastapi_endpoint
 from copilotkit import CopilotKitRemoteEndpoint
 from copilotkit.crewai import CrewAIAgent
 from crewai_sample_agent.agent import SampleAgentFlow
-
 app = FastAPI()
 sdk = CopilotKitRemoteEndpoint(
     agents=[
         CrewAIAgent(
-            name="sample_agent",
+            name="crewai_sample_agent",
             description="An example agent to use as a starting point for your own agent.",
             flow=SampleAgentFlow(),
         )
