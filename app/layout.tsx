@@ -30,7 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased w-screen h-screen`}
       >
         <CopilotKit
-          runtimeUrl="/api/copilotkit"
+          runtimeUrl="/api/copilotkit/crewai"
           agent="crewai_sample_agent"
           showDevConsole={true}
         >
