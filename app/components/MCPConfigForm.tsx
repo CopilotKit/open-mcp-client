@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useCoAgent } from "@copilotkit/react-core";
 import { ExampleConfigs } from "./ExampleConfigs";
 import { useLocalStorage } from "../hooks/useLocalStorage";
+import { useCopilotContext } from "./CopilotContext";
 
 type ConnectionType = "stdio" | "sse";
 
@@ -45,8 +46,15 @@ const ExternalLink = () => (
   </svg>
 );
 
-export function MCPConfigForm({ showSpreadsheet, setShowSpreadsheet,isLangraph,setIsLangraph }: { showSpreadsheet: boolean, setShowSpreadsheet: (value: boolean) => void, isLangraph: boolean, setIsLangraph: (value: boolean) => void }) {
+export function MCPConfigForm({
+  showSpreadsheet,
+  setShowSpreadsheet,
+}: {
+  showSpreadsheet: boolean;
+  setShowSpreadsheet: (value: boolean) => void;
+}) {
   // Use our localStorage hook for persistent storage
+  const { isLangraph, setIsLangraph } = useCopilotContext();
   const [savedConfigs, setSavedConfigs] = useLocalStorage<
     Record<string, ServerConfig>
   >(STORAGE_KEY, {});
@@ -175,25 +183,29 @@ export function MCPConfigForm({ showSpreadsheet, setShowSpreadsheet,isLangraph,s
               />
             </svg>
             <div className="flex justify-between items-center w-full">
-            <h1 className="text-3xl sm:text-5xl font-semibold">
-              Open MCP Client
-            </h1>
-            {/* <div className="">Toggle</div> */}
-            <div className="flex items-center space-x-2">
-            <span className="text-gray-700">Langraph</span>
-            <label className="relative inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                className="sr-only peer"
-                checked={!isLangraph}
-                onChange={() => setIsLangraph(!isLangraph)}
-              />
-              <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-blue-600 transition duration-300 relative">
-                <div className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${isLangraph ? "translate-x-0" : "translate-x-5"}`}></div>
+              <h1 className="text-3xl sm:text-5xl font-semibold">
+                Open MCP Client
+              </h1>
+              {/* <div className="">Toggle</div> */}
+              <div className="flex items-center space-x-2">
+                <span className="text-gray-700">Langraph</span>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="sr-only peer"
+                    checked={!isLangraph}
+                    onChange={() => setIsLangraph(!isLangraph)}
+                  />
+                  <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-blue-600 transition duration-300 relative">
+                    <div
+                      className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${
+                        isLangraph ? "translate-x-0" : "translate-x-5"
+                      }`}
+                    ></div>
+                  </div>
+                </label>
+                <span className="text-gray-700">Crew AI</span>
               </div>
-            </label>
-            <span className="text-gray-700">Crew AI</span>
-          </div>
             </div>
           </div>
         </div>
@@ -254,7 +266,7 @@ export function MCPConfigForm({ showSpreadsheet, setShowSpreadsheet,isLangraph,s
               onClick={() => setShowSpreadsheet(!showSpreadsheet)}
               className="w-full sm:w-auto px-3 py-1.5 bg-gray-800 text-white rounded-md text-sm font-medium hover:bg-gray-700 flex items-center gap-1 justify-center"
             >
-              {showSpreadsheet ? 'Hide Spreadsheet' : 'Show Spreadsheet'}
+              {showSpreadsheet ? "Hide Spreadsheet" : "Show Spreadsheet"}
             </button>
             <button
               onClick={() => setShowAddServerForm(true)}
