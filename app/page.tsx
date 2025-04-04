@@ -4,23 +4,36 @@ import { CopilotChat } from "@copilotkit/react-ui";
 import { CopilotActionHandler } from "./components/CopilotActionHandler";
 import { CopilotKitCSSProperties } from "@copilotkit/react-ui";
 import { MCPConfigForm } from "./components/MCPConfigForm";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SpreadsheetRenderer from "./components/SpreadsheetRenderer";
 import { INSTRUCTIONS } from "./instructions";
+import RootLayout from "./layout";
+import { CopilotKit } from "@copilotkit/react-core"
 
 export default function Home() {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [showSpreadsheet, setShowSpreadsheet] = useState(false);
+  const [isLangraph, setIsLangraph] = useState(true);
+
+  const runtimeUrl = isLangraph ? "/api/copilotkit/langraph" : "/api/copilotkit/crewai";
+  const agent = isLangraph ? "sample_agent" : "crewai_sample_agent";
 
   return (
     <div className="min-h-screen bg-gray-50 flex relative">
       {/* Client component that sets up the Copilot action handler */}
       <CopilotActionHandler />
+      <CopilotKit
+        runtimeUrl={runtimeUrl}
+        agent={agent}
+        showDevConsole={true}
+      >
 
       {/* Main content area */}
       <div className="flex-1 p-4 md:p-8 lg:mr-[30vw]">
         <MCPConfigForm showSpreadsheet={showSpreadsheet}
-          setShowSpreadsheet={setShowSpreadsheet} />
+          setShowSpreadsheet={setShowSpreadsheet}
+          isLangraph={isLangraph}
+          setIsLangraph={setIsLangraph} />
         {showSpreadsheet && <SpreadsheetRenderer />}
       </div>
       {/* Mobile chat toggle button */}
@@ -85,6 +98,7 @@ export default function Home() {
           }}
         />
       </div>
+      </CopilotKit>
     </div>
   );
 }
