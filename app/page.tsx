@@ -18,11 +18,6 @@ export default function Home() {
   const runtimeUrl = isLangraph ? "/api/copilotkit/langraph" : "/api/copilotkit/crewai";
   const agent = isLangraph ? "sample_agent" : "crewai_sample_agent";
 
-  useEffect(() => {
-    console.log("Current runtimeUrl:", runtimeUrl);
-    console.log("Current agent:", agent);
-  }, [isLangraph, runtimeUrl, agent]);
-
   return (
     <div className="min-h-screen bg-gray-50 flex relative">
       {/* Client component that sets up the Copilot action handler */}

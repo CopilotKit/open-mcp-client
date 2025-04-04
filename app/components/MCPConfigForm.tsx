@@ -51,10 +51,11 @@ export function MCPConfigForm({ showSpreadsheet, setShowSpreadsheet,isLangraph,s
     Record<string, ServerConfig>
   >(STORAGE_KEY, {});
 
+  const agentName = isLangraph ? "sample_agent" : "crewai_sample_agent";
   // Initialize agent state with the data from localStorage
   const { state: agentState, setState: setAgentState } = useCoAgent<AgentState>(
     {
-      name: "sample_agent",
+      name: agentName,
       initialState: {
         mcp_config: savedConfigs,
       },
