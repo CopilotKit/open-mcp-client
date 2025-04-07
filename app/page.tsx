@@ -16,11 +16,7 @@ import {
 
 // Client component to wrap CopilotKit with context
 function CopilotWrapper({ children }: { children: React.ReactNode }) {
-  const { isLangraph } = useCopilotContext();
-  const runtimeUrl = isLangraph
-    ? "/api/copilotkit/langgraph"
-    : "/api/copilotkit/crewai";
-  const agent = isLangraph ? "sample_agent" : "crewai_sample_agent";
+  const { runtimeUrl, agent } = useCopilotContext();
   console.log("runtimeUrl", runtimeUrl);
   return (
     <CopilotKit key={runtimeUrl} runtimeUrl={runtimeUrl} agent={agent} showDevConsole={true}>
