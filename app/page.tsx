@@ -23,7 +23,7 @@ function CopilotWrapper({ children }: { children: React.ReactNode }) {
   const agent = isLangraph ? "sample_agent" : "crewai_sample_agent";
   console.log("runtimeUrl", runtimeUrl);
   return (
-    <CopilotKit runtimeUrl={runtimeUrl} agent={agent} showDevConsole={true}>
+    <CopilotKit key={runtimeUrl} runtimeUrl={runtimeUrl} agent={agent} showDevConsole={true}>
       {children}
     </CopilotKit>
   );
