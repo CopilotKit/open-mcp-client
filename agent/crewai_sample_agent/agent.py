@@ -27,7 +27,7 @@ MCPConfig = Dict[str, Union[StdioConnection, SSEConnection]]
 DEFAULT_MCP_CONFIG: MCPConfig = {
     "math": {
         "command": "python",
-        "args": ["/home/tomgeorge/workspace/copilot-sdk/open-mcp-client-with-spreadsheet/agent/math_server.py"],
+        "args": [os.path.join(os.path.dirname(__file__), "..", "math_server.py")],
         "transport": "stdio",
     },
     # "hackernews": {

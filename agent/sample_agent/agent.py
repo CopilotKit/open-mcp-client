@@ -64,7 +64,6 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Litera
     async with MultiServerMCPClient(mcp_config) as mcp_client:
         # Get the tools
         mcp_tools = mcp_client.get_tools()
-        print("mcp tools",mcp_tools)
         
         # Create the react agent
         model = ChatOpenAI(model="gpt-4o")
