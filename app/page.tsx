@@ -18,7 +18,7 @@ import {
 function CopilotWrapper({ children }: { children: React.ReactNode }) {
   const { isLangraph } = useCopilotContext();
   const runtimeUrl = isLangraph
-    ? "/api/copilotkit/langraph"
+    ? "/api/copilotkit/langgraph"
     : "/api/copilotkit/crewai";
   const agent = isLangraph ? "sample_agent" : "crewai_sample_agent";
   console.log("runtimeUrl", runtimeUrl);
