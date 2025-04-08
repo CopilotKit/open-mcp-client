@@ -188,7 +188,7 @@ export function MCPConfigForm({
               </h1>
               {/* <div className="">Toggle</div> */}
               <div className="flex items-center space-x-2">
-                <span className="text-gray-700">Langgraph</span>
+                <span className="text-gray-700">LangGraph</span>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
