@@ -46,17 +46,20 @@ poetry --version
 
 ## Development
 
-We recommend running the **frontend and agent separately** in different terminals to debug errors and logs:
+We recommend you run the frontend, LangGraph agent, and CrewAI agent separately in different terminals for better debugging and log visibility:
 
 ```bash
 # Terminal 1 - Frontend
 pnpm run dev-frontend
 
-# Terminal 2 - Agent
+# Terminal 2 - LangGraph Agent
 pnpm run dev-agent
+
+# Terminal 3 - CrewAI Agent
+poetry run demo
 ```
 
-Alternatively, you can run both services together with:
+Alternatively, you can run both the frontend and LangGraph agent together with:
 
 ```bash
 pnpm run dev
@@ -64,9 +67,13 @@ pnpm run dev
 
 Then, open [http://localhost:3000](http://localhost:3000) in your browser.
 
+
 ## Architecture
+The codebase is split into three main parts:
 
-The codebase is split into two main parts:
+1. `/agent/sample_agent` **folder** – A LangGraph agent that connects to MCP servers and calls their tools.
 
-1. `/agent` **folder** – A LangGraph agent that connects to MCP servers and calls their tools.
-2. `/app` **folder** – A frontend application using CopilotKit for UI and state synchronization.
+2. `/agent/crewai_sample_agent` **folder** – A CrewAI agent that connects to MCP servers and calls their tools.
+
+3. `/app`  **folder** – A frontend application using CopilotKit for UI and state synchronization.
+
