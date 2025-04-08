@@ -5,8 +5,8 @@ import { createContext, useContext, ReactNode } from "react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 interface CopilotContextType {
-  isLangraph: boolean;
-  setIsLangraph: (value: boolean) => void;
+  isLanggraph: boolean;
+  setIsLanggraph: (value: boolean) => void;
   runtimeUrl: string;
   agent: string;
 }
@@ -14,12 +14,12 @@ interface CopilotContextType {
 const CopilotContext = createContext<CopilotContextType | undefined>(undefined);
 
 export function CopilotProvider({ children }: { children: ReactNode }) {
-  const [isLangraph, setIsLangraph] = useLocalStorage<boolean>("isLangraph", true);
-  const runtimeUrl = isLangraph ? "/api/copilotkit/langgraph" : "/api/copilotkit/crewai";
-  const agent = isLangraph ? "sample_agent" : "crewai_sample_agent";
+  const [isLanggraph, setIsLanggraph] = useLocalStorage<boolean>("isLanggraph", true);
+  const runtimeUrl = isLanggraph ? "/api/copilotkit/langgraph" : "/api/copilotkit/crewai";
+  const agent = isLanggraph ? "sample_agent" : "crewai_sample_agent";
 
   return (
-    <CopilotContext.Provider value={{ isLangraph, setIsLangraph, runtimeUrl, agent }}>
+    <CopilotContext.Provider value={{ isLanggraph, setIsLanggraph, runtimeUrl, agent }}>
       {children}
     </CopilotContext.Provider>
   );

@@ -54,12 +54,12 @@ export function MCPConfigForm({
   setShowSpreadsheet: (value: boolean) => void;
 }) {
   // Use our localStorage hook for persistent storage
-  const { isLangraph, setIsLangraph } = useCopilotContext();
+  const { isLanggraph, setIsLanggraph } = useCopilotContext();
   const [savedConfigs, setSavedConfigs] = useLocalStorage<
     Record<string, ServerConfig>
   >(STORAGE_KEY, {});
 
-  const agentName = isLangraph ? "sample_agent" : "crewai_sample_agent";
+  const agentName = isLanggraph ? "sample_agent" : "crewai_sample_agent";
   // Initialize agent state with the data from localStorage
   const { state: agentState, setState: setAgentState } = useCoAgent<AgentState>(
     {
@@ -188,18 +188,18 @@ export function MCPConfigForm({
               </h1>
               {/* <div className="">Toggle</div> */}
               <div className="flex items-center space-x-2">
-                <span className="text-gray-700">Langraph</span>
+                <span className="text-gray-700">Langgraph</span>
                 <label className="relative inline-flex items-center cursor-pointer">
                   <input
                     type="checkbox"
                     className="sr-only peer"
-                    checked={!isLangraph}
-                    onChange={() => setIsLangraph(!isLangraph)}
+                    checked={!isLanggraph}
+                    onChange={() => setIsLanggraph(!isLanggraph)}
                   />
                   <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-blue-600 transition duration-300 relative">
                     <div
                       className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform duration-300 ${
-                        isLangraph ? "translate-x-0" : "translate-x-5"
+                        isLanggraph ? "translate-x-0" : "translate-x-5"
                       }`}
                     ></div>
                   </div>
