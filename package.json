@@ -5,7 +5,8 @@
   "scripts": {
     "dev-frontend": "pnpm i && next dev --turbopack",
     "dev-agent": "cd agent && poetry install && poetry run langgraph dev --host localhost --port 8123 --no-browser",
-    "dev": "pnpx concurrently \"pnpm dev-frontend\" \"pnpm dev-agent\" --names ui,agent --prefix-colors blue,green",
+    "dev-crewai-agent": "cd agent && poetry install && poetry run demo",
+    "dev": "pnpx concurrently \"pnpm dev-frontend\" \"pnpm dev-agent\" \"pnpm dev-crewai-agent\" --names ui,langraph-agent,crewai-agent --prefix-colors blue,green,cyan",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
