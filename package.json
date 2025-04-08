@@ -5,15 +5,17 @@
   "scripts": {
     "dev-frontend": "pnpm i && next dev --turbopack",
     "dev-agent": "cd agent && poetry install && poetry run langgraph dev --host localhost --port 8123 --no-browser",
-    "dev": "pnpx concurrently \"pnpm dev-frontend\" \"pnpm dev-agent\" --names ui,agent --prefix-colors blue,green",
+    "dev-crewai-agent": "cd agent && poetry install && poetry run demo",
+    "dev": "pnpx concurrently \"pnpm dev-frontend\" \"pnpm dev-agent\" \"pnpm dev-crewai-agent\" --names ui,langgraph-agent,crewai-agent --prefix-colors blue,green,cyan",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@copilotkit/react-core": "^1.6.0",
-    "@copilotkit/react-ui": "^1.6.0",
-    "@copilotkit/runtime": "^1.6.0",
+    "@copilotkit/react-core": "1.8.2",
+    "@copilotkit/react-ui": "1.8.2",
+    "@copilotkit/runtime": "1.8.2",
+    "@copilotkit/runtime-client-gql": "1.8.2",
     "@heroicons/react": "^2.2.0",
     "@langchain/openai": "^0.4.5",
     "class-validator": "^0.14.1",
