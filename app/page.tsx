@@ -4,10 +4,9 @@ import { CopilotChat } from "@copilotkit/react-ui";
 import { CopilotActionHandler } from "./components/CopilotActionHandler";
 import { CopilotKitCSSProperties } from "@copilotkit/react-ui";
 import { MCPConfigForm } from "./components/MCPConfigForm";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SpreadsheetRenderer from "./components/SpreadsheetRenderer";
 import { INSTRUCTIONS } from "./instructions";
-import RootLayout from "./layout";
 import { CopilotKit } from "@copilotkit/react-core";
 import {
   CopilotProvider,
@@ -17,7 +16,6 @@ import {
 // Client component to wrap CopilotKit with context
 function CopilotWrapper({ children }: { children: React.ReactNode }) {
   const { runtimeUrl, agent } = useCopilotContext();
-  console.log("runtimeUrl", runtimeUrl);
   return (
     <CopilotKit key={runtimeUrl} runtimeUrl={runtimeUrl} agent={agent} showDevConsole={true}>
       {children}
