@@ -56,10 +56,10 @@ pnpm run dev-frontend
 pnpm run dev-agent
 
 # Terminal 3 - CrewAI Agent
-poetry run demo
+pnpm run dev-crewai-agent
 ```
 
-Alternatively, you can run both the frontend and LangGraph agent together with:
+Alternatively, you can run the frontend, the LangGraph and the CrewAI agent together with:
 
 ```bash
 pnpm run dev
