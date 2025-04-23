@@ -1,0 +1,51 @@
+# Composition file for the complete application (frontend + agent)
+services:
+  # Service for Next.js frontend application
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend-final
+    environment:
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    restart: unless-stopped
+    # Wait for the agent to be up and running
+    depends_on:
+      - agent
+
+  # Service for Python agent application
+  agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: agent-final
+    ports:
+      - "8123:8123"
+    networks:
+      - app-network
+    restart: on-failure:5
+    # Optional volume for agent data persistence
+    volumes:
+      - agent-data:/usr/src/app/agent/data
+    # Add healthcheck to verify agent is running correctly
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8123/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# Network definition for service communication
+networks:
+  app-network:
+    driver: bridge
+
+# Volumes for data persistence
+volumes:
+  agent-data:
+
+
